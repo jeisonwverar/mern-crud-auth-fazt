@@ -2,6 +2,11 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import {AuthProvider}from './context/AuthContext'
+import TasksPage from './pages/TasksPage';
+import TaskFormPage from './pages/TaskFormPage'
+import HomePage from './pages/HomePage';
+import ProfilePage from './pages/ProfilePage';
+import ProtectedRoute from './ProtectedRoute';
 function App() {
   
   return(
@@ -9,7 +14,7 @@ function App() {
      <BrowserRouter>
       <Routes>
         <Route path='/' element={
-          <h1>Home page</h1>
+          <HomePage/>
         }  />
         <Route path='/login' element={
           <LoginPage/>
@@ -17,18 +22,20 @@ function App() {
         <Route path='/register' element={
           <RegisterPage/>
         }  />
-        <Route path='/tasks' element={
-          <h1>task page </h1>
+       <Route element={<ProtectedRoute/>}>
+       <Route path='/tasks' element={
+          <TasksPage/>
         }  />
         <Route path='/add-task' element={
-          <h1>add task</h1>
+          <TaskFormPage/>
         }  />
         <Route path='/task/:id' element={
-          <h1>update task</h1>
+          <TaskFormPage/>
         }  />
         <Route path='/profile' element={
-          <h1>profile</h1>
+          <ProfilePage/>
         }  />
+       </Route>
       </Routes>
       </BrowserRouter>
 

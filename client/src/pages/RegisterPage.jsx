@@ -2,6 +2,7 @@ import{useForm} from 'react-hook-form';
 import {useAuth} from '../context/AuthContext';
 import { useEffect } from 'react';
 import {useNavigate} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 function RegisterPage() {
     const {register, handleSubmit,formState:{errors}}=useForm()
     const {singup,isAuthenticated,errors:registerErrors}=useAuth();
@@ -69,6 +70,10 @@ const onsubmit= handleSubmit(async(values)=>{
         Register
        </button>
    </form>
+   <p>Alredy have account? 
+      <Link to='/login' className='flex gap-x-2 text-blue-400'>Sign up
+    </Link></p>
+
     </div>
   )
 }
