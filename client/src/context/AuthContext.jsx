@@ -1,7 +1,6 @@
 import { createContext,useState,useContext,useEffect } from "react";
 import{registerRequest,loginRequest,verifyTokenRequest} from '../api/auth.js';
-import Cookie from 'js-cookie';
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
 const AuthContext=createContext();
 export const useAuth=()=>{
  const context=useContext(AuthContext);
@@ -16,7 +15,7 @@ export const AuthProvider=({children})=>{
         const  [user, setUser] = useState(null);
         const [isAuthenticated,setIsAuthenticated]=useState(false);
         const [errors,setErrors]=useState([]);
-
+        const [loading,setLoading]=useState(true);
         const singup=async(user)=>{
             try {
 
@@ -66,22 +65,33 @@ export const AuthProvider=({children})=>{
     useEffect(()=>{
         async function  checkLogin () {
             const cookies= Cookies.get();
-        if(cookies.token){
-            try {
-             const res= await  verifyTokenRequest(cookies.token);
-                if(!res.data)isAuthenticated(false)
-
+        if(!cookies.token){
+            setIsAuthenticated(false);
+            setLoading(false)
+            return setUser(null)
+        }
+        try {
+            const res= await  verifyTokenRequest(cookies.token);
+            if(!res.data){ 
+                setIsAuthenticated(false)
+            
+                setLoading(false);
+                return;
+            }
                 setIsAuthenticated(true)
                 setUser(res.data)
+                setLoading(false);
                 
             } catch (error) {
+                //console.error(error)
                 setIsAuthenticated(false)
                 setUser(null)
+                setLoading(false)
             }
 
         }
 
-        }
+        
         checkLogin();
     },[])
 
@@ -90,6 +100,7 @@ export const AuthProvider=({children})=>{
     <AuthContext.Provider value={{
     singup,
     signin,
+    loading,
     user,
     isAuthenticated,
     errors
