@@ -74,7 +74,7 @@ const onsubmit= handleSubmit(async(values)=>{
         Register
        </button>
    </form>
-   <p>Alredy have account? 
+   <p>Already have account? 
       <Link to='/login' className='flex gap-x-2 text-blue-400'>Sign up
     </Link></p>
 
